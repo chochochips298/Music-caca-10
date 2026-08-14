@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>FerissaJS · Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #ffffff;
+            font-family: 'Segoe UI', 'Poppins', system-ui, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .dashboard {
+            max-width: 1200px;
+            width: 100%;
+            background: #ffff;
+            border-radius: 20px;
+            padding: 28px 24px;
+            border: 1px solid #eaeaea;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 16px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        .header h2 {
+            font-weight: 600;
+            font-size: 1.4rem;
+            letter-spacing: 0.2px;
+            color: #1a1a1a;
+        }
+
+        .header h2 span {
+            color: #999999;
+            font-weight: 600;
+        }
+
+        .header .badge {
+            background: #f5f5f5;
+            color: #555555;
+            font-size: 0.75rem;
+            padding: 6px 18px;
+            border-radius: 40px;
+            border: 1px solid #eaeaea;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 18px 16px;
+            border: 1px solid #f2aaaa;
+            display: flex;
+            flex-direction: column;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            border-color: #cccccc;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+        }
+
+        .card .judul {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            letter-spacing: -0.2px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 2px;
+        }
+
+        .card .judul .nomor {
+            font-size: 0.68rem;
+            background: #f5f5f5;
+            color: #555555;
+            padding: 2px 10px;
+            border-radius: 40px;
+            font-weight: 500;
+            margin-left: auto;
+            border: 1px solid #eaeaea;
+        }
+
+        .card .deskripsi {
+            font-size: 0.78rem;
+            color: #888888;
+            font-weight: 400;
+            margin: 4px 0 12px 0;
+            padding-left: 10px;
+            border-left: 2px solid #dddddd;
+            line-height: 1.4;
+        }
+
+        .hasil {
+            background: #facdcd;
+            border-radius: 12px;
+            padding: 14px 10px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 110px;
+            border: 1px solid #f0f0f0;
+        }
+        .hasil .preview {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .hasil img {
+            width: 44px;
+            height: 44px;
+            background: #fff;
+            padding: 6px;
+            border-radius: 40px;
+            border: 1px solid #e29292;
+        }
+
+        /* Tombol default */
+        .hasil .tombol {
+            background: #ffffff;
+            border: 1px solid #dddddd;
+            color: #333333;
+            font-size: 0.68rem;
+            padding: 7px 18px;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: 0.2s;
+            letter-spacing: 0.3px;
+            font-weight: 500;
+            font-family: inherit;
+        }
+
+        .hasil .tombol:hover {
+            background: #f2f2f2;
+            border-color: #bbbbbb;
+            color: #000000;
+        }
+
+        .hasil .tombol:active {
+            transform: scale(0.96);
+        }
+
+        /* Tombol PINK khusus */
+        .tombol-pink {
+            background: #e06080 !important;
+            border: 1px solid #d04a6a !important;
+            color: #ffffff !important;
+        }
+        .tombol-pink:hover {
+            background: #c94a6a !important;
+            border-color: #b33a5a !important;
+            color: #ffffff !important;
+        }
+
+        /* Tombol BIRU khusus */
+        .tombol-biru {
+            background: #6ba0c0 !important;
+            border: 1px solid #5a8aaa !important;
+            color: #ffffff !important;
+        }
+        .tombol-biru:hover {
+            background: #5a8aaa !important;
+            border-color: #4a7a9a !important;
+            color: #ffffff !important;
+        }
+
+        .hasil .baris {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 4px;
+        }
+
+        .hasil .label-kecil {
+            font-size: 0.65rem;
+            color: #887a7a;
+            letter-spacing: 0.3px;
+            font-weight: 400;
+            margin-top: 2px;
+        }
+
+        .hasil .teks-preview,
+        .hasil .teks-preview2 {
+            color: #1a1a1a;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin: 0 0 4px 0;
+            text-align: center;
+        }
+
+        .tombol-proyek {
+            background: #1a1a1a;
+            border: none;
+            color: #fff !important;
+            font-size: 0.78rem !important;
+            padding: 10px 22px !important;
+            border-radius: 60px !important;
+            cursor: pointer;
+            transition: 0.2s;
+            letter-spacing: 0.3px;
+            font-weight: 600;
+            font-family: inherit;
+            width: 100%;
+            max-width: 180px;
+        }
+
+        .tombol-proyek:hover {
+            background: #333333;
+            transform: translateY(-2px);
+        }
+
+        .tombol-proyek:active {
+            transform: scale(0.96);
+        }
+
+        .icon-proyek {
+            font-size: 1.4rem;
+            margin-bottom: 4px;
+        }
+
+        @media (max-width: 900px) {
+            .grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 560px) {
+            .grid { grid-template-columns: 1fr; }
+            .dashboard { padding: 20px 16px; }
+            .header h2 { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="dashboard">
+
+    <div class="header">
+        <h2>Ferissa<span>js</span> · Dashboard</h2>
+        <span class="badge">6 materi</span>
+    </div>
+
+    <div class="grid">
+
+        <!-- 1 -->
+        <div class="card">
+            <div class="judul">Change HTML Attribut<span class="nomor">1</span></div>
+            <div class="deskripsi">ganti warna gambar dengan tombol</div>
+            <div class="hasil">
+                <div class="preview">
+                    <img id="img1" src="https://cdn-icons-png.flaticon.com/128/3069/3069114.png" alt="icon" />
+                    <div class="baris">
+                        <button class="tombol" onclick='document.getElementById("img1").src="https://cdn-icons-png.flaticon.com/128/3069/3069186.png"'>color</button>
+                        <button class="tombol" onclick='document.getElementById("img1").src="https://cdn-icons-png.flaticon.com/128/3069/3069114.png"'>hitam putih</button>
+                    </div>
+                    <span class="label-kecil">klik tombol untuk ganti</span>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="card">
+            <div class="judul">Change HTML Content <span class="nomor">2</span></div>
+            <div class="deskripsi">teks berubah saat diklik</div>
+            <div class="hasil">
+                <div class="preview">
+                    <p class="teks-preview2" id="demo2">Aku akan berubah!</p>
+                    <button class="tombol" onclick='document.getElementById("demo2").innerHTML = "Aku sudah berubah! (◕‿◕)"'>Klik aku!</button>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="card">
+            <div class="judul">Change HTML Style<span class="nomor">3</span></div>
+            <div class="deskripsi">ubah warna teks</div>
+            <div class="hasil">
+                <div class="preview">
+                    <p class="teks-preview" id="demo3">Teks ini akan berubah warna</p>
+                    <div class="baris">
+                        <!-- Tombol Pink-->
+                        <button class="tombol tombol-pink" onclick='document.getElementById("demo3").style.color = "#e06080"'>Pink</button>
+                        <!-- Tombol Biru-->
+                        <button class="tombol tombol-biru" onclick='document.getElementById("demo3").style.color = "#6ba0c0"'>Biru</button>
+                        <button class="tombol" onclick='document.getElementById("demo3").style.color = "#1a1a1a"'>Netral</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="card">
+            <div class="judul">Showing and Hiding Element <span class="nomor">4</span></div>
+            <div class="deskripsi">muncul &amp; hilang</div>
+            <div class="hasil">
+                <div class="preview">
+                    <p class="teks-preview" id="demo4">Aku bisa menghilang!</p>
+                    <div class="baris">
+                        <button class="tombol" onclick='document.getElementById("demo4").style.display = "none"'>hilang</button>
+                        <button class="tombol" onclick='document.getElementById("demo4").style.display = "block"'>muncul</button>
+                    </div>
+                    <span class="label-kecil">tekan hilang untuk menyembunyikan</span>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="judul">Music Player <span class="nomor">5</span></div>
+            <div class="deskripsi">Music Player Ferissa</div>
+            <div class="hasil">
+                <div class="preview">
+                    <button class="tombol-proyek" onclick="window.open('ferissa-music-player ror.html', '_blank')">
+                        Buka Music Player
+                    </button>
+                    <span class="label-kecil">klik untuk membuka</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="judul"> Kalkulator <span class="nomor">6</span></div>
+            <div class="deskripsi">mengaplikasikan variable pada html</div>
+            <div class="hasil">
+                <div class="preview">
+                    <button class="tombol-proyek" onclick="window.open('kalkulator.html', '_blank')">
+                        Buka Kalkulator
+                    </button>
+                    <span class="label-kecil">klik untuk membuka</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
